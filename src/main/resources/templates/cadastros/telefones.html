@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Cadastro de Pessoas</title>
+
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+	<!--Import Google Icon Font-->
+
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css" media="screen,projection" />
+
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="style/styleCss.css" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
+
+	<header>
+		<nav class="menu">
+			<div class="nav-wrapper">
+				<a href="#" class="brand-logo">Cadastrar Telefones Ant.Joaquim</a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="/listarPessoas" class="waves-effect waves-light btn"><i
+								class="material-icons left">format_list_numbered</i>Listar Pessoas</a>
+								<a href="/cadastroPessoa"  class="waves-effect waves-light btn">
+								 <i class="material-icons left">exit_to_app</i>Sair</a></li>
+				</ul>
+			</div>
+		</nav>
+
+	</header>
+	<br />
+	<div th:each="m : ${msg}" class="blue-text text-darken-2">
+		<span th:text="${m}"></span>
+	</div>
+	<br />
+
+	<div th:each="p:${pessoaobj}">
+
+		<div class="row">
+			<div class="input-field col s12">
+				<i class="material-icons prefix">account_circle</i> <br>
+				<p>Id: <span th:text="${p.id}"></span> </p>
+				<i class="material-icons prefix">account_circle</i>
+				<p>Nome: <span th:text="${p.nome}"></span> </p>
+
+			</div>
+
+			<!-- forme para add telefone por id-->
+			<div class="container formEvento">
+
+				<form th:action="@{/addTelefonesPessoa/{pessoaId}(pessoaId=${pessoaobj.id})}" method="post"
+					class="container" onsubmit="return validarCampos()? true : false">
+					<h4>Telefones </h4>
+					<div class="input-field col s3">
+						<i class="material-icons prefix">phone</i>
+						<input id="numero" name="numero" type="tel" class="validate">
+						<label for="numero">Telefone:</label>
+					</div>
+					<div class="input-field col s3">
+						<i class="material-icons prefix">system_update</i>
+						<input id="tipo" name="tipo" type="tel" class="validate">
+						<label for="tipo">Tipo:</label>
+					</div>
+
+					<div class="input-field col s12">
+						<div class="input-field col s3">
+							<input type="submit" value="Adicionar " class="waves-effect waves-light btn">
+						</div>
+						<div class="input-field col s3">
+							<a href="/listarPessoas" class="waves-effect waves-light btn"><i
+									class="material-icons left">add_circle_outline</i>Voltar</a>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="container formEvento">
+				<table border="1" class="container tabelaConvidado">
+					<thead>
+						<tr>
+							<th>Id Fone</th>
+							<th>Telefones</th>
+							<th>Tipo</th>
+							<th>Excluir Telefone</th>
+
+						</tr>
+					</thead>
+					<tr th:each="fone : ${telefones}">
+						<td th:text="${fone.id}"></td>
+						<td th:text="${fone.numero}"></td>
+						<td th:text="${fone.tipo}"></td>
+						<td> <a th:href="@{/excluirTelefone/{idTelefone}(idTelefone=${fone.id})}">Excluir</a> </td>
+					</tr>
+				</table>
+
+			</div>
+
+			<script type="text/javascript" src="/js/materialize.min.js"></script>
+			<script type="text/javascript" src="/https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+			<script type="text/javascript">
+				function validarCampos() {
+
+					numero = document.getElementById('numero').value;
+					tipo = document.getElementById('tipo').value;
+					if (numero === '') {
+						alert('Campo telefone esta vazio');
+						return false;
+					} else if (tipo === '') {
+						alert('Campo Tipo esta vazio');
+						return false;
+					}
+					return true;
+				}
+
+
+			</script>
+
+</body>
+
+</html>
